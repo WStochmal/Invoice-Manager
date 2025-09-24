@@ -1,0 +1,39 @@
+[
+  {
+    "invoiceNumber": "FV/2025/01/01",
+    "issueDate": "2025-01-10",
+    "dueDate": "2025-01-25",
+    "createdAt": "2025-01-10T00:00:00",
+    "buyer": {
+      "name": "ABC Sp. z o.o.",
+      "NIP": "123456789",
+      "street": "ul. Klienta 1",
+      "city": "Kraków",
+      "postalCode": "30-001"
+    },
+    "items": [
+      {
+        "description": "Licencja oprogramowania",
+        "quantity": 2,
+        "netPrice": 500,
+        "vatRate": 0.23,
+        "vatPrice": 230.0,
+        "grossPrice": 1230.0
+      },
+      {
+        "description": "Usługa wdrożeniowa",
+        "quantity": 1,
+        "netPrice": 1500,
+        "vatRate": 0.23,
+        "vatPrice": 345.0,
+        "grossPrice": 1845.0
+      }
+    ],
+    "status": "PAID",
+    "favorite": true,
+    "totalNetPrice": 2500.0,
+    "totalVatPrice": 575.0,
+    "totalGrossPrice": 3075.0,
+    "additionalNotes": "Pilne, klient poprosił o szybkie wystawienie faktury"
+  }
+]

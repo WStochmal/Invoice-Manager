@@ -1,0 +1,65 @@
+.invoices {
+    color: black;
+}
+
+.invoice-list {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.invoice-list img {
+    width: 20px;
+    height: 20px;
+    filter: invert(0.6);
+}
+
+.invoice-list tr {
+    width: 100%;
+}
+
+.invoice-list tr:hover {
+    background-color: #f5f5f5;
+}
+
+.invoice-list th {
+    color: #ccc;
+    font-weight: normal;
+}
+
+.invoice-list th,
+.invoice-list td {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.invoice-list td:nth-child(2) {
+    color: #ccc;
+}
+
+.invoice-paid-status {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    font-weight: bold;
+    border-radius: 50%;
+}
+
+.paid-status-paid {
+    background-color: green;
+}
+
+.paid-status-unpaid {
+    background-color: red;
+}
+
+.paid-status-pending {
+    background-color: grey;
+}
+
+.invoice-table-cell-with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
