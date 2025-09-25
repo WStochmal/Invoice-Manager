@@ -1,6 +1,7 @@
 package com.app.service;
 
 import com.app.dto.ResponseDto;
+import com.app.exception.invoice.InvoiceCreationException;
 import com.app.exception.invoice.InvoiceNotFoundException;
 import com.app.model.Invoice;
 import com.app.util.InvoiceCalculator;
@@ -26,20 +27,39 @@ public class InvoiceService {
             ResponseDto<List<Invoice>> responseDto = new ResponseDto<>(true, "INVOICES_RETRIEVED", invoices);
             return ResponseEntity.ok(responseDto);
         }
+        // Fetch invoice by ID
+    public ResponseEntity<ResponseDto<Invoice>> getInvoiceById(String id) {
+            UUID invoiceId = UUID.fromString(id);
+            Invoice invoice = invoices.stream()
+                    .filter(inv -> inv.getId().equals(invoiceId))
+                    .findFirst()
+                    .orElseThrow(InvoiceNotFoundException::new);
+
+            ResponseDto<Invoice> responseDto = new ResponseDto<>(true, "INVOICE_RETRIEVED", invoice);
+            return ResponseEntity.ok(responseDto);
+        }
 
         // Create a new invoice
         public ResponseEntity<ResponseDto<Invoice>> createInvoice(Invoice invoice) {
-            // Validation of required fields
+            // 1. Validation of required fields
             InvoiceRequiredFieldsValidator.validate(invoice);
-            // Calculate prices
+
+            // 2. Unique Invoice Number check
+            boolean invoiceNumberExists = invoices.stream()
+                    .anyMatch(existingInvoice -> existingInvoice.getInvoiceNumber().equals(invoice.getInvoiceNumber()));
+            if (invoiceNumberExists) throw new InvoiceCreationException("INVOICE_NUMBER_ALREADY_EXISTS");
+
+            // 3. Calculate prices
             InvoiceCalculator.calculateTotalPrices(invoice);
 
+            // 4. Add to the list
             try {
                 invoices.add(invoice);
             }  catch (Exception e) {
                 throw new RuntimeException("Failed to create invoice");
             }
 
+            // 5. Return response
             ResponseDto<Invoice> responseDto = new ResponseDto<>(true, "INVOICE_CREATED", invoice);
             return ResponseEntity.ok(responseDto);
         }

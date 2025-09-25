@@ -18,6 +18,7 @@ const Sidebar = () => {
         <li onClick={() => navigate("/")}>Dashboard</li>
         <li onClick={() => navigate("/products")}>Products</li>
         <li onClick={() => navigate("/invoices")}>Invoices</li>
+        <li onClick={() => navigate("/invoices/form")}>Invoice Form</li>
         <li onClick={() => navigate("/settings")}>Settings</li>
       </ul>
     </div>

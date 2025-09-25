@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import style from "./Invoices.module.css";
 
@@ -11,16 +11,22 @@ import icon_add from "@/assets/icons/add.png";
 import icon_print from "@/assets/icons/print.png";
 
 // hooks
-import { useInvoices } from "@/hooks/useInvoices";
+
 import NewInvoiceModal from "@/components/modal/NewInvoiceModal";
-import InvoiceListTable from "./components/InvoiceListTable";
+import InvoiceListTable from "./components/InvoiceListTable/InvoiceListTable";
+
+import { useInvoiceContext } from "@/hooks/useInvoicesContext";
+import InvoiceListHeader from "./components/InvoiceListHeader/InvoiceListHeader";
+import Loader from "@/components/common/Loader";
 
 export const Invoices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { invoices, isLoading, isError, deleteInvoice } = useInvoices();
+  const { invoices, isLoading, isError, deleteInvoiceById, fetchAllInvoices } =
+    useInvoiceContext();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error: {isError}</div>;
+  useEffect(() => {
+    fetchAllInvoices();
+  }, []);
 
   const favoriteInvoices = invoices
     .filter((i) => i.favorite)
@@ -38,24 +44,33 @@ export const Invoices = () => {
 
   return (
     <div className={style["invoices"]}>
-      <h1>Invoices Page</h1>
-      <button
-        className={style["add-invoice-button"]}
-        onClick={() => setIsModalOpen(true)}
-      >
-        <img src={icon_add} alt="Add Icon" />
-        Add New Invoice
-      </button>
-      <InvoiceListTable
-        invoices={favoriteInvoices}
-        deleteInvoice={deleteInvoice}
-        title="Favorite Invoices"
-      />
-      <InvoiceListTable
-        invoices={otherInvoices}
-        deleteInvoice={deleteInvoice}
-        title="Other Invoices"
-      />
+      {/*  HEADER */}
+      <InvoiceListHeader openModal={setIsModalOpen} />
+
+      <div className={style["invoice-list-container"]}>
+        {/* LOADER / ERROR / EMPTY INVOICES LIST */}
+        {isLoading && <Loader />}
+        {isError && <div>Error loading invoices.</div>}
+        {!isLoading && !isError && invoices.length === 0 && (
+          <div>No invoices found.</div>
+        )}
+        {/* Tabele */}
+        {!isLoading && !isError && invoices.length > 0 && (
+          <>
+            <InvoiceListTable
+              invoices={favoriteInvoices}
+              deleteInvoice={deleteInvoiceById}
+              title="Favorite Invoices"
+            />
+            <InvoiceListTable
+              invoices={otherInvoices}
+              deleteInvoice={deleteInvoiceById}
+              title="Other Invoices"
+            />
+          </>
+        )}
+      </div>
+      {/* Modal */}
       <NewInvoiceModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

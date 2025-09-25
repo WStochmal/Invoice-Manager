@@ -24,6 +24,11 @@ public class InvoiceController {
         return invoiceService.getAllInvoices();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<Invoice>> getInvoiceById(@PathVariable String id) {
+        return invoiceService.getInvoiceById(id);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDto<Void>> deleteInvoiceById(@PathVariable String id) {
         return invoiceService.deleteInvoiceById(id);

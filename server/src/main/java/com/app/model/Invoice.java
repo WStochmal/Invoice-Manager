@@ -39,6 +39,7 @@ public class Invoice {
     private double totalGrossPrice;
     private double totalVatPrice;
 
+    private String currency = "PLN"; // Default currency is PLN
     private LocalDateTime createdAt = LocalDateTime.now(); // Timestamp of creation in system
     private String additionalNotes;
 }

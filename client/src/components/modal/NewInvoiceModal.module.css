@@ -1,0 +1,83 @@
+/* MODAL OVERLAY */
+
+.modal-overlay {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* MODAL WINDOW */
+
+.modal-window {
+  background: white;
+  box-shadow: var(--default-box-shadow);
+  z-index: 2;
+  min-width: 400px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* MODAL CLOSE BUTTON */
+
+.close-button {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-blue);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.close-button img {
+  width: 16px;
+  height: 16px;
+}
+
+.active-option {
+  flex: 1 !important;
+}
+
+/* MODAL BODY */
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.option-button {
+  flex: 0.5;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.option-button img {
+  width: 24px;
+  height: 24px;
+}
