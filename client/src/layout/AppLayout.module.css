@@ -6,7 +6,7 @@
   grid-template-columns: 250px 1fr;
   width: 100svw;
   height: 100svh;
-  background: #fefefb;
+  background: var(--color-light-gray);
 }
 
 /* HEADER POSITION LAYOUT*/
@@ -30,4 +30,9 @@
   overflow-y: auto;
   background: #f5f5f5;
   padding: 20px;
+  /* CENTER CONTAINER */
+  max-width: 1400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }

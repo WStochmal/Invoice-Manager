@@ -1,4 +1,15 @@
 :root {
-  --color-blue: #083d77;
+  /* --- colors --- */
+  --color-white: #ffffff;
+  --color-light-gray: #f5f5f5;
+  --color-grey: #7a7a7a;
+  --color-blue: #0a4e8c;
+  --color-blue-hover: #083d77;
+  --color-green: #23967f;
+  --color-green: #1d7874;
+  --color-red: #e74c3c;
+  --color-red-hover: #c0392b;
+  /* --- default states --- */
   --default-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --default-border: 1px solid #dcdcdc;
 }

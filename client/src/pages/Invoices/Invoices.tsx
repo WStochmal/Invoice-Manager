@@ -1,31 +1,24 @@
+// -- lib --
 import React, { useEffect, useState } from "react";
 
+// --- style ---
 import style from "./Invoices.module.css";
 
-// icons
+// --- hooks ---
+import { useModalContext } from "@/hooks/useModalContext";
+import { useInvoiceContext } from "@/hooks/useInvoicesContext";
 
-import icon_star from "@/assets/icons/star.png";
-import icon_delete from "@/assets/icons/delete.png";
-import icon_edit from "@/assets/icons/edit.png";
-import icon_add from "@/assets/icons/add.png";
-import icon_print from "@/assets/icons/print.png";
-
-// hooks
-
-import NewInvoiceModal from "@/components/modal/NewInvoiceModal";
+// --- components ---
+import InvoiceListHeader from "./components/InvoiceListHeader/InvoiceListHeader";
+import Loader from "@/components/common/Loader/Loader";
 import InvoiceListTable from "./components/InvoiceListTable/InvoiceListTable";
 
-import { useInvoiceContext } from "@/hooks/useInvoicesContext";
-import InvoiceListHeader from "./components/InvoiceListHeader/InvoiceListHeader";
-import Loader from "@/components/common/Loader";
-
-export const Invoices = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { invoices, isLoading, isError, deleteInvoiceById, fetchAllInvoices } =
-    useInvoiceContext();
+const Invoices = () => {
+  const { invoices, fetchInvoices } = useInvoiceContext();
+  const { openModal } = useModalContext();
 
   useEffect(() => {
-    fetchAllInvoices();
+    fetchInvoices.execute();
   }, []);
 
   const favoriteInvoices = invoices
@@ -45,36 +38,35 @@ export const Invoices = () => {
   return (
     <div className={style["invoices"]}>
       {/*  HEADER */}
-      <InvoiceListHeader openModal={setIsModalOpen} />
+      <InvoiceListHeader openModal={() => openModal("NEW_INVOICE")} />
 
       <div className={style["invoice-list-container"]}>
         {/* LOADER / ERROR / EMPTY INVOICES LIST */}
-        {isLoading && <Loader />}
-        {isError && <div>Error loading invoices.</div>}
-        {!isLoading && !isError && invoices.length === 0 && (
+        {fetchInvoices.isLoading && <Loader />}
+        {fetchInvoices.isError && <div>{fetchInvoices.messageCode}</div>}
+        {/* {!isLoading && !isError && invoices.length === 0 && (
           <div>No invoices found.</div>
-        )}
+        )} */}
         {/* Tabele */}
-        {!isLoading && !isError && invoices.length > 0 && (
-          <>
-            <InvoiceListTable
-              invoices={favoriteInvoices}
-              deleteInvoice={deleteInvoiceById}
-              title="Favorite Invoices"
-            />
-            <InvoiceListTable
-              invoices={otherInvoices}
-              deleteInvoice={deleteInvoiceById}
-              title="Other Invoices"
-            />
-          </>
-        )}
+        {!fetchInvoices.isLoading &&
+          !fetchInvoices.isError &&
+          invoices.length > 0 && (
+            <>
+              <InvoiceListTable
+                invoices={favoriteInvoices}
+                deleteInvoice={() => {}}
+                title="Pinned Invoices"
+              />
+              <InvoiceListTable
+                invoices={otherInvoices}
+                deleteInvoice={() => {}}
+                title="Invoices"
+              />
+            </>
+          )}
       </div>
-      {/* Modal */}
-      <NewInvoiceModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </div>
   );
 };
+
+export default Invoices;

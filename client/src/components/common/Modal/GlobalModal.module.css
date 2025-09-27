@@ -23,14 +23,6 @@
   min-width: 400px;
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
-}
-
 /* MODAL CLOSE BUTTON */
 
 .close-button {
@@ -39,7 +31,6 @@
   background-color: var(--color-blue);
   color: white;
   border: none;
-  border-radius: 10px;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -50,34 +41,25 @@
   height: 16px;
 }
 
-.active-option {
-  flex: 1 !important;
+/* MODAL HEADER */
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #141416;
+  font-weight: 400;
 }
 
 /* MODAL BODY */
 
 .modal-body {
   padding: 20px;
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-}
-
-.option-button {
-  flex: 0.5;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: transparent;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.option-button img {
-  width: 24px;
-  height: 24px;
 }

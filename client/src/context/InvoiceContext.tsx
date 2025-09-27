@@ -1,79 +1,159 @@
-import React, { createContext, useState } from "react";
-import type { Invoice } from "@/types/Invoice.type";
+// --- libs ---
+import React, { createContext, useReducer, useState } from "react";
+
+// --- api ---
 import { InvoiceApi } from "@/api/invoiceApi";
+
+// -- hooks ---
+import useApiCall from "@/api/hooks/useApiCall";
+
+// --- reducer ---
+import { InvoiceReducer } from "@/reducers/invoiceReducer";
 
 export const InvoiceContext = createContext<InvoiceContextProps | undefined>(
   undefined
 );
-
+// --- types ---
+import type { Invoice } from "@/types/Invoice.type";
+import { createNewInvoice } from "@/utils/invoice/createNewInvoice";
 type InvoiceContextProps = {
   invoices: Invoice[];
   currentInvoice: Invoice | null;
-  isLoading: boolean;
-  isError: boolean;
-  messageCode: string | null;
-  fetchAllInvoices: () => Promise<void>;
-  fetchInvoiceById: (id: string) => Promise<Invoice | null>;
-  deleteInvoiceById: (id: string) => Promise<void>;
-  createInvoice: (invoice: Partial<Invoice>) => Promise<Invoice | null>;
-  updateInvoice: (
-    id: string,
-    invoice: Partial<Invoice>
-  ) => Promise<Invoice | null>;
+  fetchInvoices: ReturnType<typeof useApiCall<Invoice[], void>>;
+  fetchInvoiceById: ReturnType<typeof useApiCall<Invoice, string>>;
+  createInvoice: ReturnType<typeof useApiCall<Invoice, Invoice>>;
+  updateInvoice: ReturnType<typeof useApiCall<Invoice, Invoice>>;
+  updateCurrentInvoiceForm: (
+    toBeUpdated:
+      | "NEW_INVOICE"
+      | "INVOICE_FORM"
+      | "BUYER_FORM"
+      | "ITEM_FORM"
+      | "NEW_ITEM"
+      | "REMOVE_ITEM",
+    field?:
+      | keyof Invoice
+      | keyof Invoice["buyer"]
+      | keyof Invoice["items"][number],
+    value?: string | number,
+    index?: number // only for items
+  ) => void;
 };
 
 export const InvoiceContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [currentInvoice, setCurrentInvoice] = useState<Invoice | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [messageCode, setMessageCode] = useState<string | null>(null);
+  const [invoices, setInvoices] = useState<Invoice[]>([]); // all invoices (list view)
+  const [currentInvoice, dispatch] = useReducer(InvoiceReducer, null); // reducer for current invoice (form view)
 
-  const fetchAllInvoices = async () => {
-    try {
-      setIsLoading(true);
-      const res = await InvoiceApi.getAllInvoices();
+  // ### API Calls ###
+  // --- Fetch all invoices ---
+  const fetchInvoices = useApiCall(InvoiceApi.getAllInvoices, {
+    onSuccess: (response) => {
+      setInvoices(response.data);
+      console.log("Fetched invoices:", response.data);
+    },
+  });
+  // --- Create new invoice ---
+  const createInvoice = useApiCall(InvoiceApi.addInvoice, {
+    onSuccess: (response) => {
+      setInvoices((prev) => [...prev, response.data]);
+    },
+  });
+  // --- Fetch invoice by ID ---
+  const fetchInvoiceById = useApiCall(InvoiceApi.getInvoiceById, {
+    onSuccess: (response) => {
+      dispatch({ type: "SET_INVOICE", payload: response.data });
+    },
+  });
+  // --- Update invoice ---
+  const updateInvoice = useApiCall(InvoiceApi.updateInvoice, {
+    onSuccess: (response) => {
+      dispatch({ type: "SET_INVOICE", payload: response.data });
+    },
+  });
 
-      // await new Promise((resolve) => setTimeout(resolve, 10000));
-      setInvoices(res.data);
-    } catch (err) {
-      setIsError(true);
-      setMessageCode((err as Error).message);
-    } finally {
-      setIsLoading(false);
+  // ### Handlers ###
+  // --- Update current invoice (locally in form view) ---
+  const updateCurrentInvoiceForm = (
+    toBeUpdated:
+      | "NEW_INVOICE"
+      | "INVOICE_FORM"
+      | "BUYER_FORM"
+      | "ITEM_FORM"
+      | "NEW_ITEM"
+      | "REMOVE_ITEM",
+    field?:
+      | keyof Invoice
+      | keyof Invoice["buyer"]
+      | keyof Invoice["items"][number],
+    value?: string | number,
+    index?: number // only for items
+  ) => {
+    switch (toBeUpdated) {
+      // -- Initialize new invoice form --
+      case "NEW_INVOICE": {
+        const newInvoice = createNewInvoice();
+        dispatch({ type: "SET_INVOICE", payload: newInvoice });
+        break;
+      }
+      // -- Update invoice main field --
+      case "INVOICE_FORM":
+        dispatch({
+          type: "UPDATE_INVOICE_FIELD",
+          payload: { field: field as keyof Invoice, value },
+        });
+        break;
+      // -- Update nested buyer field --
+      case "BUYER_FORM":
+        dispatch({
+          type: "UPDATE_INVOICE_BUYER_FIELD",
+          payload: { field: field as keyof Invoice["buyer"], value },
+        });
+        break;
+      // -- Update nested items field --
+      case "ITEM_FORM":
+        if (currentInvoice) {
+          dispatch({
+            type: "UPDATE_INVOICE_ITEM_FIELD",
+            payload: {
+              index,
+              field: field as keyof Invoice["items"][number],
+              value,
+            },
+          });
+        }
+        break;
+      // -- Add new item to items array --
+      case "NEW_ITEM":
+        dispatch({ type: "UPDATE_INVOICE_NEW_ITEM" });
+        break;
+      // -- Remove item from items array --
+      case "REMOVE_ITEM":
+        if (currentInvoice) {
+          dispatch({
+            type: "UPDATE_INVOICE_REMOVE_ITEM",
+            payload: { index },
+          });
+        }
+        break;
+      default:
+        break;
     }
   };
 
-  const deleteInvoiceById = async (id: string) => {
-    try {
-      setIsLoading(true);
-      await InvoiceApi.deleteInvoice(id);
-      setInvoices((prev) => prev.filter((inv) => inv.id !== id));
-    } catch (err) {
-      setIsError(true);
-      setMessageCode((err as Error).message);
-    } finally {
-      setIsLoading(false);
-    }
+  const contextValue = {
+    invoices,
+    fetchInvoices,
+    fetchInvoiceById,
+    createInvoice,
+    updateInvoice,
+    currentInvoice,
+    updateCurrentInvoiceForm,
   };
 
   return (
-    <InvoiceContext.Provider
-      value={{
-        invoices,
-        currentInvoice,
-        isLoading,
-        isError,
-        messageCode,
-        fetchAllInvoices,
-        fetchInvoiceById: async (id: string) => null,
-        deleteInvoiceById,
-        createInvoice: async (invoice) => null,
-        updateInvoice: async (id, invoice) => null,
-      }}
-    >
+    <InvoiceContext.Provider value={contextValue}>
       {children}
     </InvoiceContext.Provider>
   );

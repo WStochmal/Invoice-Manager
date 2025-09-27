@@ -9,6 +9,7 @@ import icon_edit from "@/assets/icons/edit.png";
 
 import icon_print from "@/assets/icons/print.png";
 import { useNavigate } from "react-router-dom";
+import CollapseWrapper from "@/components/common/CollapseWrapper/CollapseWrapper";
 
 type InvoiceListTableProps = {
   invoices: Invoice[];
@@ -21,9 +22,12 @@ const InvoiceListTable: React.FC<InvoiceListTableProps> = ({
   title,
 }) => {
   const navigate = useNavigate();
+
+  if (invoices.length === 0) {
+    return null;
+  }
   return (
-    <>
-      <h2 className={style["invoice-table-title"]}>{title}</h2>
+    <CollapseWrapper title={title} defaultCollapsed={false}>
       <table className={style["invoice-table"]}>
         <thead>
           <tr>
@@ -112,7 +116,7 @@ const InvoiceListTable: React.FC<InvoiceListTableProps> = ({
           ))}
         </tbody>
       </table>
-    </>
+    </CollapseWrapper>
   );
 };
 

@@ -7,7 +7,6 @@ const BASE_PATH = "/invoices";
 export const InvoiceApi = {
   getAllInvoices: async (): Promise<ApiResponse<Invoice[]>> => {
     const response = await axiosClient.get<ApiResponse<Invoice[]>>(BASE_PATH);
-    console.log(response.data);
     return response.data;
   },
   getInvoiceById: async (id: string): Promise<ApiResponse<Invoice>> => {
@@ -18,7 +17,7 @@ export const InvoiceApi = {
   },
   addInvoice: async (invoice: Invoice): Promise<ApiResponse<Invoice>> => {
     const response = await axiosClient.post<ApiResponse<Invoice>>(
-      `${BASE_PATH}/add`,
+      `${BASE_PATH}/create`,
       invoice
     );
     return response.data;
@@ -26,6 +25,13 @@ export const InvoiceApi = {
   deleteInvoice: async (id: string): Promise<ApiResponse<null>> => {
     const response = await axiosClient.delete<ApiResponse<null>>(
       `${BASE_PATH}/delete/${id}`
+    );
+    return response.data;
+  },
+  updateInvoice: async (invoice: Invoice): Promise<ApiResponse<Invoice>> => {
+    const response = await axiosClient.put<ApiResponse<Invoice>>(
+      `${BASE_PATH}/update/${invoice.id}`,
+      invoice
     );
     return response.data;
   },

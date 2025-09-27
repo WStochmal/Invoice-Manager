@@ -1,5 +1,5 @@
 import type { Buyer } from "./Buyer.type";
-import type { Product } from "./Product.type";
+import type { Items } from "./Items";
 
 export type Invoice = {
   id: string;
@@ -7,12 +7,13 @@ export type Invoice = {
   issueDate: string;
   dueDate: string;
   buyer: Buyer;
-  products: Product[];
+  items: Items[];
   status: "PAID" | "UNPAID" | "PENDING";
   favorite: boolean;
   totalNetPrice: number;
   totalGrossPrice: number;
   totalVatPrice: number;
+  currency?: string;
   additionalNotes?: string;
   createdAt: string;
 };

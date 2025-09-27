@@ -1,4 +1,7 @@
+// --- style ---
 import style from "./Loader.module.css";
+
+// --- Loader component ---
 const Loader: React.FC = () => {
   return (
     <div className={style["loader-container"]}>

@@ -1,0 +1,56 @@
+/* --- BUYER DATA & INVOICE DATES --- */
+
+.buyer-section-content {
+  display: grid;
+  grid-template-columns: 6fr 4fr;
+}
+
+.buyer-data {
+  border-right: var(--default-border);
+  padding: 20px;
+}
+
+.invoice-dates {
+  padding: 20px;
+}
+
+/* --- Common styles--- */
+
+.buyer-data h3,
+.invoice-dates h3 {
+  margin: 0;
+  font-weight: normal;
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.buyer-data span,
+.invoice-dates span {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.buyer-data label,
+.invoice-dates label {
+  font-size: 0.8rem;
+  color: var(--color-grey);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buyer-data input,
+.invoice-dates input {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  background: #f6f6f6;
+  padding: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.85rem;
+}

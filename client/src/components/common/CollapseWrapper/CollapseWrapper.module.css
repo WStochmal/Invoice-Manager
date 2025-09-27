@@ -1,0 +1,52 @@
+.collapse-wrapper {
+  background: #ffffff;
+  box-shadow: var(--default-box-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.collapse-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+}
+
+.collapse-header h3 {
+  margin: 0;
+  font-weight: normal;
+  color: #333;
+  font-size: 18px;
+}
+
+.collapse-header button {
+  background: var(--color-blue);
+  border: none;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.collapse-header button:hover {
+  background: var(--color-blue-hover);
+}
+
+.collapse-header button img {
+  width: 16px;
+  height: 16px;
+  filter: invert(1);
+  transition: transform 0.2s;
+}
+
+.collapse-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  border-top: var(--default-border);
+}

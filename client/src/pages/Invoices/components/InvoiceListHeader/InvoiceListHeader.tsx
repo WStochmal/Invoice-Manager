@@ -2,7 +2,9 @@ import React, { useRef } from "react";
 import style from "./InvoiceListHeader.module.css";
 import icon_add from "@/assets/icons/add.png";
 import icon_search from "@/assets/icons/search.png";
-const InvoiceListHeader = ({ openModal }) => {
+import { useModalContext } from "@/hooks/useModalContext";
+const InvoiceListHeader = () => {
+  const { openModal } = useModalContext();
   const searchRef = useRef(null);
   return (
     <header className={style["invoices-header"]}>
@@ -10,7 +12,7 @@ const InvoiceListHeader = ({ openModal }) => {
         <h2>Invoices</h2>
         <button
           className={style["add-invoice-button"]}
-          onClick={() => openModal(true)}
+          onClick={() => openModal({ type: "NEW_INVOICE", actionType: null })}
         >
           <img src={icon_add} alt="Add Icon" className="inverted-color" />
         </button>

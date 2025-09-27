@@ -15,3 +15,7 @@ body {
 .inverted-color {
   filter: invert(1);
 }
+
+input:required:invalid {
+  border: 2px solid var(--color-red);
+}
