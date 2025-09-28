@@ -12,28 +12,53 @@
       "postalCode": "30-001"
     },
     "items": [
-      {
-        "description": "Licencja oprogramowania",
-        "quantity": 2,
-        "netPrice": 500,
-        "vatRate": 0.23,
-        "vatPrice": 230.0,
-        "grossPrice": 1230.0
-      },
-      {
-        "description": "Usługa wdrożeniowa",
-        "quantity": 1,
-        "netPrice": 1500,
-        "vatRate": 0.23,
-        "vatPrice": 345.0,
-        "grossPrice": 1845.0
-      }
+      { "description": "Licencja oprogramowania", "quantity": 2, "unitNetPrice": 500, "vatRate": 0.23 },
+      { "description": "Usługa wdrożeniowa", "quantity": 1, "unitNetPrice": 1500, "vatRate": 0.23 },
+      { "description": "Szkolenie pracowników", "quantity": 3, "unitNetPrice": 300, "vatRate": 0.23 },
+      { "description": "Support techniczny", "quantity": 6, "unitNetPrice": 100, "vatRate": 0.23 },
+      { "description": "Dodatkowe licencje", "quantity": 5, "unitNetPrice": 200, "vatRate": 0.23 },
+      { "description": "Konfiguracja systemu", "quantity": 2, "unitNetPrice": 750, "vatRate": 0.23 }
     ],
     "status": "PAID",
     "favorite": true,
-    "totalNetPrice": 2500.0,
-    "totalVatPrice": 575.0,
-    "totalGrossPrice": 3075.0,
     "additionalNotes": "Pilne, klient poprosił o szybkie wystawienie faktury"
+  },
+  {
+    "invoiceNumber": "FV/2025/01/02",
+    "issueDate": "2025-02-05",
+    "dueDate": "2025-02-20",
+    "createdAt": "2025-02-05T00:00:00",
+    "buyer": {
+      "name": "XYZ Sp. z o.o.",
+      "NIP": "987654321",
+      "street": "ul. Klienta 2",
+      "city": "Warszawa",
+      "postalCode": "00-100"
+    },
+    "items": [
+      { "description": "Konsultacja IT", "quantity": 1, "unitNetPrice": 1200, "vatRate": 0.23 }
+    ],
+    "status": "UNPAID",
+    "favorite": false,
+    "additionalNotes": "Klient prosi o fakturę elektroniczną"
+  },
+  {
+    "invoiceNumber": "FV/2025/01/03",
+    "issueDate": "2025-03-01",
+    "dueDate": "2025-03-15",
+    "createdAt": "2025-03-01T00:00:00",
+    "buyer": {
+      "name": "LMN Sp. z o.o.",
+      "NIP": "1122334455",
+      "street": "ul. Klienta 3",
+      "city": "Gdańsk",
+      "postalCode": "80-200"
+    },
+    "items": [
+      { "description": "Audyt bezpieczeństwa", "quantity": 1, "unitNetPrice": 2500, "vatRate": 0.23 }
+    ],
+    "status": "PAID",
+    "favorite": false,
+    "additionalNotes": "Faktura zawiera rabat sezonowy"
   }
 ]
