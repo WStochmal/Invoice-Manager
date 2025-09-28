@@ -1,20 +1,22 @@
 // --- hooks ---
 import { useInvoiceContext } from "@/hooks/useInvoicesContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // --- style ---
 import style from "./BuyerSection.module.css";
 
 const BuyerSection = () => {
   const { currentInvoice, updateCurrentInvoiceForm } = useInvoiceContext();
+  const { getText } = useTranslation();
 
   if (!currentInvoice) return null;
 
   return (
     <div className={style["buyer-section-content"]}>
       <div className={style["buyer-data"]}>
-        <h3>Buyer information</h3>
+        <h3>{getText("INVOICE_BUYER_TITLE")}</h3>
         <span>
-          <label htmlFor="buyer-name">Company name</label>
+          <label htmlFor="buyer-name">{getText("INVOICE_BUYER_NAME")}</label>
           <input
             required
             type="text"
@@ -26,7 +28,7 @@ const BuyerSection = () => {
         </span>
 
         <span>
-          <label htmlFor="buyer-NIP">NIP</label>
+          <label htmlFor="buyer-NIP">{getText("INVOICE_BUYER_NIP")}</label>
           <input
             required
             type="text"
@@ -40,7 +42,9 @@ const BuyerSection = () => {
         </span>
 
         <span>
-          <label htmlFor="buyer-street">Street</label>
+          <label htmlFor="buyer-street">
+            {getText("INVOICE_BUYER_STREET")}
+          </label>
           <input
             required
             type="text"
@@ -52,7 +56,9 @@ const BuyerSection = () => {
         </span>
 
         <span>
-          <label htmlFor="buyer-postalCode">Postal Code</label>
+          <label htmlFor="buyer-postalCode">
+            {getText("INVOICE_BUYER_POSTAL_CODE")}
+          </label>
           <input
             required
             type="text"
@@ -68,7 +74,7 @@ const BuyerSection = () => {
         </span>
 
         <span>
-          <label htmlFor="buyer-city">City</label>
+          <label htmlFor="buyer-city">{getText("INVOICE_BUYER_CITY")}</label>
           <input
             required
             type="text"
@@ -81,9 +87,9 @@ const BuyerSection = () => {
       </div>
 
       <div className={style["invoice-dates"]}>
-        <h3>Invoice Dates</h3>
+        <h3>{getText("INVOICE_DATES_TITLE")}</h3>
         <span>
-          <label htmlFor="issue-date">Issue Date</label>
+          <label htmlFor="issue-date">{getText("INVOICE_ISSUE_DATE")}</label>
           <input
             required
             type="date"
@@ -98,7 +104,7 @@ const BuyerSection = () => {
           />
         </span>
         <span>
-          <label htmlFor="due-date">Due Date</label>
+          <label htmlFor="due-date">{getText("INVOICE_DUE_DATE")}</label>
           <input
             required
             type="date"

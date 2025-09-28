@@ -10,12 +10,15 @@ import icon_form from "@/assets/icons/form.png";
 
 // --- hooks ---
 import { useInvoiceContext } from "@/hooks/useInvoicesContext";
-
+import { useTranslation } from "@/hooks/useTranslation";
+import { useModalContext } from "@/hooks/useModalContext";
 // --- utils ---
 import { parseInvoiceFile } from "@/utils/invoiceParseFileUtils";
 
 // --- components ---
 import Loader from "@/components/common/Loader/Loader";
+import { useNavigate } from "react-router-dom";
+import CollapseWrapper from "@/components/common/CollapseWrapper/CollapseWrapper";
 
 const NewInvoiceModal = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -27,6 +30,12 @@ const NewInvoiceModal = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { createInvoice } = useInvoiceContext();
 
+  const { closeModal } = useModalContext();
+
+  const { getText } = useTranslation();
+
+  const navigate = useNavigate();
+
   const handleCreateInvoice = async (file: File) => {
     try {
       // --- Check file type ---
@@ -36,7 +45,7 @@ const NewInvoiceModal = () => {
       }
       // --- Parse the json file ---
       const invoice = await parseInvoiceFile(file);
-      await createInvoice.execute(invoice);
+      await createInvoice.execute(invoice, "INVOICE_LIST");
     } catch (err) {
       setIsFileValid({ valid: false, message: "INVALID_JSON_STRUCTURE" });
     }
@@ -72,10 +81,26 @@ const NewInvoiceModal = () => {
 
       {createInvoice.isLoading ? (
         <Loader />
-      ) : createInvoice.isError ? (
-        <p className={style["error-message"]}>
-          Error: {createInvoice.messageCode}
-        </p>
+      ) : createInvoice.messageCode ? (
+        <CollapseWrapper
+          title={getText(createInvoice.messageCode)}
+          defaultCollapsed={createInvoice.isError} // błędy domyślnie złożone, sukces rozwinięty
+          type={createInvoice.isError ? "error" : "success"}
+        >
+          {createInvoice.isError &&
+            createInvoice.errorData &&
+            Object.keys(createInvoice.errorData).length > 0 && (
+              <ul>
+                {Object.entries(createInvoice.errorData).map(
+                  ([field, message], index) => (
+                    <li key={index}>
+                      <strong>{field}:</strong> {getText(message)}
+                    </li>
+                  )
+                )}
+              </ul>
+            )}
+        </CollapseWrapper>
       ) : (
         <>
           {/* --- Upload JSON button --- */}
@@ -94,15 +119,21 @@ const NewInvoiceModal = () => {
           >
             <img src={icon_upload} alt="Upload JSON" />
             {isJsonUploadReady
-              ? "Drop JSON file here or click to upload"
-              : "Upload JSON file"}
+              ? getText("DROP_JSON_FILE_HERE")
+              : getText("UPLOAD_JSON")}
           </button>
 
           {/* --- Fill Form button --- */}
           {!isJsonUploadReady && (
-            <button className={style["option-button"]}>
+            <button
+              className={style["option-button"]}
+              onClick={() => {
+                closeModal();
+                navigate("/invoices/form");
+              }}
+            >
               <img src={icon_form} alt="Fill Form" />
-              <span>Fill Form</span>
+              <span>{getText("FILL_FORM")}</span>
             </button>
           )}
         </>

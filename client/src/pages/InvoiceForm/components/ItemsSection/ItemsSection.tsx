@@ -1,8 +1,10 @@
 // --- hooks ---
 import { useInvoiceContext } from "@/hooks/useInvoicesContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // --- style ---
 import style from "./ItemsSection.module.css";
+import tableStyle from "@/styles/sharedTableStyle.module.css";
 
 // --- icons ---
 import icon_add from "@/assets/icons/add.png";
@@ -10,6 +12,7 @@ import icon_delete from "@/assets/icons/delete.png";
 
 const ItemsSection = () => {
   const { currentInvoice, updateCurrentInvoiceForm } = useInvoiceContext();
+  const { getText } = useTranslation();
 
   if (!currentInvoice) return null;
 
@@ -32,18 +35,34 @@ const ItemsSection = () => {
 
   return (
     <div className={style["items-section"]}>
-      <table>
+      <table className={tableStyle["base-table"]}>
         <thead>
           <tr>
-            <th className={style["col-small"]}>Lp.</th>
-            <th className={style["col-large"]}>Item</th>
-            <th className={style["col-medium"]}>Quantity</th>
-            <th className={style["col-medium"]}>Unit Net Price</th>
-            <th className={style["col-medium"]}>Net Price</th>
-            <th className={style["col-medium"]}>VAT Rate</th>
-            <th className={style["col-medium"]}>VAT Price</th>
-            <th className={style["col-medium"]}>Gross Price</th>
-            <th className={style["col-small"]}></th>
+            <th className={tableStyle["tiny-column"]}>
+              {getText("INVOICE_LP")}
+            </th>
+            <th className={tableStyle["large-column"]}>
+              {getText("INVOICE_ITEM_DESCRIPTION")}
+            </th>
+            <th className={tableStyle["medium-column"]}>
+              {getText("INVOICE_ITEM_QUANTITY")}
+            </th>
+            <th className={tableStyle["medium-column"]}>
+              {getText("INVOICE_ITEM_UNIT_NET_PRICE")}
+            </th>
+            <th className={tableStyle["medium-column"]}>
+              {getText("INVOICE_NET_PRICE")}
+            </th>
+            <th className={tableStyle["medium-column"]}>
+              {getText("INVOICE_ITEM_VAT_RATE")}
+            </th>
+            <th className={tableStyle["medium-column"]}>
+              {getText("INVOICE_VAT_PRICE")}
+            </th>
+            <th className={tableStyle["medium-column"]}>
+              {getText("INVOICE_GROSS_PRICE")}
+            </th>
+            <th className={tableStyle["tiny-column"]}></th>
           </tr>
         </thead>
         <tbody>
@@ -51,8 +70,8 @@ const ItemsSection = () => {
           {currentInvoice.items.length > 0 &&
             currentInvoice.items.map((item, key) => (
               <tr key={key}>
-                <td className={style["col-small"]}>{key + 1}</td>
-                <td className={style["col-large"]}>
+                <td className={tableStyle["tiny-column"]}>{key + 1}</td>
+                <td className={tableStyle["large-column"]}>
                   <input
                     required
                     type="text"
@@ -67,7 +86,7 @@ const ItemsSection = () => {
                     }
                   />
                 </td>
-                <td className={style["col-medium"]}>
+                <td className={tableStyle["medium-column"]}>
                   <input
                     required
                     type="number"
@@ -83,7 +102,7 @@ const ItemsSection = () => {
                     }
                   />
                 </td>
-                <td className={style["col-medium"]}>
+                <td className={tableStyle["medium-column"]}>
                   <input
                     required
                     type="number"
@@ -99,10 +118,10 @@ const ItemsSection = () => {
                     }
                   />
                 </td>
-                <td className={style["col-medium"]}>
+                <td className={tableStyle["medium-column"]}>
                   {item.netPrice.toFixed(2)}
                 </td>
-                <td className={style["col-medium"]}>
+                <td className={tableStyle["medium-column"]}>
                   <input
                     type="number"
                     min={0}
@@ -119,16 +138,16 @@ const ItemsSection = () => {
                     }
                   />
                 </td>
-                <td className={style["col-medium"]}>
+                <td className={tableStyle["medium-column"]}>
                   {item.vatPrice.toFixed(2)}
                 </td>
-                <td className={style["col-medium"]}>
+                <td className={tableStyle["medium-column"]}>
                   {item.grossPrice.toFixed(2)}
                 </td>
-                <td className={style["col-small"]}>
+                <td className={tableStyle["tiny-column"]}>
                   <button
-                    className={style["remove-item"]}
-                    title="Remove item"
+                    className={tableStyle["table-button"]}
+                    title={getText("DELETE_ITEM")}
                     onClick={(e) => handleDeleteItem(e, key)}
                   >
                     <img src={icon_delete} />
@@ -140,7 +159,11 @@ const ItemsSection = () => {
         <tfoot>
           <tr className={style["totals-row"]}>
             <td colSpan={1}>
-              <button className={style["add-item"]} onClick={handleAddNewItem}>
+              <button
+                className={style["add-item"]}
+                onClick={handleAddNewItem}
+                title={getText("ADD_ITEM")}
+              >
                 <img src={icon_add} alt="Add Line" />
               </button>
             </td>

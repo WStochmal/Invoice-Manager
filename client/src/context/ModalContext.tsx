@@ -1,13 +1,19 @@
 // --- lib ---
 import { createContext, useState } from "react";
 
+// --- hooks ---
+import { useInvoiceContext } from "@/hooks/useInvoicesContext";
+
 // --- types ---
 type ModalVariant =
   | { type: "NEW_INVOICE"; actionType: null } // New invoice by uploading a file
   | {
       type: "CONFIRM_ACTION";
       actionType: "DELETE_INVOICE" | "UPDATE_INVOICE" | "CREATE_INVOICE";
+
+      invoiceId?: string;
     }
+  | { type: "LOAD_INVOICE"; actionType: null }
   | null;
 
 // --- context ---
@@ -28,6 +34,8 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [variant, setVariant] = useState<ModalVariant>(null);
 
+  const { updateInvoice, createInvoice } = useInvoiceContext();
+
   const openModal = (variant: ModalVariant) => {
     setVariant(variant);
     setIsOpen(true);
@@ -36,6 +44,18 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const closeModal = () => {
     setIsOpen(false);
     setVariant(null);
+
+    switch (variant?.type) {
+      case "CONFIRM_ACTION":
+        updateInvoice.reset();
+        createInvoice.reset();
+        break;
+      case "NEW_INVOICE":
+        createInvoice.reset();
+        break;
+      default:
+        break;
+    }
   };
 
   const value = { isOpen, openModal, variant, closeModal };

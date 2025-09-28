@@ -4,6 +4,7 @@ import { useState } from "react";
 // --- hooks ---
 import { useInvoiceContext } from "@/hooks/useInvoicesContext";
 import { useModalContext } from "@/hooks/useModalContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // --- style ---
 import style from "./ConfirmActionModal.module.css";
@@ -14,39 +15,46 @@ import Loader from "@/components/common/Loader/Loader";
 // --- type ---
 type ConfirmActionModalProps = {
   actionType: "DELETE_INVOICE" | "UPDATE_INVOICE" | "CREATE_INVOICE";
+  invoiceId?: string;
 };
 
-const ConfirmActionModal = ({ actionType }: ConfirmActionModalProps) => {
+const ConfirmActionModal = ({
+  actionType,
+  invoiceId,
+}: ConfirmActionModalProps) => {
   const { closeModal } = useModalContext();
-  const { updateInvoice, currentInvoice, createInvoice } = useInvoiceContext();
+  const { updateInvoice, currentInvoice, createInvoice, deleteInvoice } =
+    useInvoiceContext();
   const [isConformationView, setIsConfirmationView] = useState(true);
+  const { getText } = useTranslation();
 
   // --- Get confirm button text based on action type ---
   const getConfirmButtonText = () => {
     switch (actionType) {
       case "DELETE_INVOICE":
-        return "Delete";
+        return getText("DELETE");
       case "UPDATE_INVOICE":
-        return "Update";
-      case "CREATE_INVOICE":
-        return "Create";
+        return getText("UPDATE");
       default:
-        return "Confirm";
+        return getText("CONFIRM");
     }
   };
 
   // --- Handle confirm action based on action type ---
   const handleConfirm = () => {
-    if (!currentInvoice) return;
     setIsConfirmationView(false);
     switch (actionType) {
       case "DELETE_INVOICE":
+        if (!invoiceId) return;
+        deleteInvoice.execute(invoiceId, invoiceId);
         break;
       case "UPDATE_INVOICE":
+        if (!currentInvoice) return;
         updateInvoice.execute(currentInvoice);
         break;
       case "CREATE_INVOICE":
-        createInvoice.execute(currentInvoice);
+        if (!currentInvoice) return;
+        createInvoice.execute(currentInvoice, "FORM_EDITOR");
         break;
       default:
         break;
@@ -58,7 +66,7 @@ const ConfirmActionModal = ({ actionType }: ConfirmActionModalProps) => {
       {isConformationView && (
         <>
           <button className={style["cancel-button"]} onClick={closeModal}>
-            Cancel
+            {getText("CANCEL")}
           </button>
           <button
             className={`${style["confirm-button"]} ${
@@ -70,12 +78,9 @@ const ConfirmActionModal = ({ actionType }: ConfirmActionModalProps) => {
           </button>
         </>
       )}
-      {(updateInvoice.isLoading || createInvoice.isLoading) && <Loader />}
-      {(updateInvoice.isError || createInvoice.isError) && (
-        <p className={style["error-message"]}>
-          Error: {updateInvoice.messageCode || createInvoice.messageCode}
-        </p>
-      )}
+      {(updateInvoice.isLoading ||
+        createInvoice.isLoading ||
+        deleteInvoice.isLoading) && <Loader />}
     </div>
   );
 };

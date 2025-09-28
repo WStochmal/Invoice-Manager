@@ -2,14 +2,14 @@
 import { useCallback, useState } from "react";
 
 // --- types ---
-type UseApiCallOptions = {
-  onSuccess?: (response: any) => void;
+type UseApiCallOptions<T> = {
+  onSuccess?: (response: T, context?: string) => void;
 };
 
 // #### Universal hook for making API calls ###
 const useApiCall = <T, P = void>(
   apiFunc: (params: P) => Promise<T>,
-  options?: UseApiCallOptions
+  options?: UseApiCallOptions<T>
 ) => {
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const [isError, setIsError] = useState<boolean>(false); // Error state
@@ -20,15 +20,15 @@ const useApiCall = <T, P = void>(
 
   // --- Execute the API call ---
   const execute = useCallback(
-    async (params: P) => {
+    async (params: P, context?: string) => {
       setIsLoading(true);
       setIsError(false);
       setMessageCode(null);
 
       try {
         const response = await apiFunc(params);
-
-        if (options?.onSuccess) options.onSuccess(response);
+        setMessageCode(response?.messageCode || null);
+        if (options?.onSuccess) options.onSuccess(response, context);
 
         return response;
       } catch (err) {
@@ -49,10 +49,11 @@ const useApiCall = <T, P = void>(
   // --- Reset states ---
   const reset = () => {
     setIsError(false);
+    setErrorData(null);
     setMessageCode(null);
     setIsLoading(false);
   };
 
-  return { execute, isLoading, isError, messageCode, reset };
+  return { execute, isLoading, isError, messageCode, reset, errorData };
 };
 export default useApiCall;

@@ -7,7 +7,7 @@
 }
 
 .option-button {
-    flex: 0.5;
+    flex: 1;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -26,18 +26,14 @@
 }
 
 
-/* ACTIVE OPTION JSON UPLOAD */
+/* OPTION BUTTON */
 
 .option-button.drag-over {
     border: 2px dashed #083d77;
     background: #e8f1fb;
 }
 
-.active-option {
-    flex: 1 !important;
-}
-
-.active-option img {
+.option-button img {
     animation: pulse 1s linear infinite;
 }
 

@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 // hooks
 import { useInvoiceContext } from "@/hooks/useInvoicesContext";
 import { useModalContext } from "@/hooks/useModalContext";
+import { useTranslation } from "@/hooks/useTranslation";
+
 // style
 import style from "./InvoiceFrom.module.css";
 
@@ -24,6 +26,7 @@ const InvoiceForm = () => {
   const { fetchInvoiceById, currentInvoice, updateCurrentInvoiceForm } =
     useInvoiceContext();
   const { openModal } = useModalContext();
+  const { getText } = useTranslation();
   // --- Fetch invoice if id present ---
   useEffect(() => {
     if (id) {
@@ -39,7 +42,7 @@ const InvoiceForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (currentInvoice?.items.length === 0) {
-      alert("Invoice must have at least one item");
+      alert(getText("INVOICE_MUST_HAVE_AT_LEAST_ONE_ITEM"));
       return;
     }
     if (!isExistingInvoice) {
@@ -60,17 +63,17 @@ const InvoiceForm = () => {
       />
 
       {/* --- Buyer && Date Section --- */}
-      <CollapseWrapper title="Buyer and Date Information">
+      <CollapseWrapper title={getText("INVOICE_BUYER_DATE_TITLE")}>
         <BuyerSection />
       </CollapseWrapper>
 
       {/* --- Items Section --- */}
-      <CollapseWrapper title="Items">
+      <CollapseWrapper title={getText("INVOICE_ITEMS_TITLE")}>
         <ItemsSection />
       </CollapseWrapper>
 
       {/* --- Summary Section --- */}
-      <CollapseWrapper title="Summary">
+      <CollapseWrapper title={getText("INVOICE_SUMMARY_TITLE")}>
         <SummarySection />
       </CollapseWrapper>
     </form>

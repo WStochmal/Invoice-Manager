@@ -7,6 +7,7 @@ import style from "./Invoices.module.css";
 // --- hooks ---
 import { useModalContext } from "@/hooks/useModalContext";
 import { useInvoiceContext } from "@/hooks/useInvoicesContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // --- components ---
 import InvoiceListHeader from "./components/InvoiceListHeader/InvoiceListHeader";
@@ -16,6 +17,8 @@ import InvoiceListTable from "./components/InvoiceListTable/InvoiceListTable";
 const Invoices = () => {
   const { invoices, fetchInvoices } = useInvoiceContext();
   const { openModal } = useModalContext();
+
+  const { getText } = useTranslation();
 
   useEffect(() => {
     fetchInvoices.execute();
@@ -43,10 +46,12 @@ const Invoices = () => {
       <div className={style["invoice-list-container"]}>
         {/* LOADER / ERROR / EMPTY INVOICES LIST */}
         {fetchInvoices.isLoading && <Loader />}
-        {fetchInvoices.isError && <div>{fetchInvoices.messageCode}</div>}
-        {/* {!isLoading && !isError && invoices.length === 0 && (
-          <div>No invoices found.</div>
-        )} */}
+        {fetchInvoices.isError && (
+          <div className={style["error-message"]}>
+            {getText(fetchInvoices.messageCode)}
+          </div>
+        )}
+
         {/* Tabele */}
         {!fetchInvoices.isLoading &&
           !fetchInvoices.isError &&
@@ -54,16 +59,15 @@ const Invoices = () => {
             <>
               <InvoiceListTable
                 invoices={favoriteInvoices}
-                deleteInvoice={() => {}}
-                title="Pinned Invoices"
+                title={getText("INVOICE_TABLE_TITLE_PINNED")}
               />
               <InvoiceListTable
                 invoices={otherInvoices}
-                deleteInvoice={() => {}}
-                title="Invoices"
+                title={getText("INVOICE_TABLE_TITLE_OTHERS")}
               />
             </>
           )}
+        {invoices.length === 0 && <p>{getText("EMPTY_INVOICE_LIST")}</p>}
       </div>
     </div>
   );

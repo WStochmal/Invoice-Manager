@@ -1,0 +1,314 @@
+/* ==== SHARED TABLE STYLES ==== */
+
+/* --- table --- */
+
+.base-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  white-space: nowrap;
+  color: #333;
+}
+
+.table-horizontal-scroll {
+  overflow-x: auto;
+}
+
+/* --- Table cell style --- */
+
+.base-table td,
+.base-table th {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Table header row  -- */
+
+.base-table th {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--color-grey);
+}
+
+/* -- Table row  -- */
+
+/* --- Column sizes ---*/
+
+.col-tiny {
+  width: 40px;
+}
+
+.tiny-column {
+  width: 40px;
+}
+
+.small-column {
+  width: 60px;
+}
+
+.medium-column {
+  width: 120px;
+}
+
+.large-column {
+  width: auto;
+  min-width: 200px;
+}
+
+/* --- Table buttons --- */
+
+.table-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.table-button:hover img {
+  transform: scale(1.2) rotate(15deg);
+  filter: invert(0);
+}
+
+.table-button img {
+  width: 16px;
+  height: 16px;
+  filter: invert(0.5);
+  transition: transform 0.2s;
+}
+
+/* ----------- */
+
+.base-table tr {
+  width: 100%;
+}
+
+.base-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.table-with-scroll {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  white-space: nowrap;
+}
+
+/* Header styles */
+
+.table-header {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--color-grey);
+}
+
+/* Cell styles */
+
+.table-cell {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.table-cell-nowrap {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-cell-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Row styles */
+
+.table-row {
+  width: 100%;
+}
+
+.table-row-hover:hover {
+  background-color: #f5f5f5;
+}
+
+.table-row-light {
+  background: #fefefb;
+}
+
+.table-row-special {
+  background: var(--color-white);
+  font-weight: 600;
+}
+
+/* ===== COLUMN SIZING ===== */
+
+.col-tiny {
+  width: 5%;
+  min-width: 30px;
+}
+
+.col-small {
+  width: 60px;
+}
+
+.col-medium {
+  width: 120px;
+  min-width: 80px;
+}
+
+.col-large {
+  width: auto;
+  min-width: 200px;
+}
+
+.col-auto {
+  min-width: 80px;
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== BUTTON STYLES ===== */
+
+.button-base {
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: none;
+}
+
+.button-primary {
+  background: var(--color-blue);
+  padding: 8px;
+  transition: background 0.2s;
+}
+
+.button-primary:hover {
+  background: var(--color-blue-hover);
+}
+
+.button-icon {
+  background: none;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button-danger:hover img {
+  transform: scale(1.2) rotate(15deg);
+  filter: invert(0);
+}
+
+/* ===== ICON STYLES ===== */
+
+.icon-small {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s;
+}
+
+.icon-medium {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-inverted {
+  filter: invert(1);
+}
+
+.icon-muted {
+  filter: invert(0.5);
+}
+
+.icon-semi-muted {
+  filter: invert(0.6);
+}
+
+/* ===== INPUT STYLES ===== */
+
+.table-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  background: #f6f6f6;
+  padding: 8px;
+  white-space: nowrap;
+}
+
+/* ===== STATUS INDICATORS ===== */
+
+.status-indicator {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+.status-paid {
+  background-color: green;
+}
+
+.status-unpaid {
+  background-color: red;
+}
+
+.status-pending {
+  background-color: grey;
+}
+
+/* ===== SECTION CONTAINER ===== */
+
+.table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.table-section-title {
+  font-size: 1.5em;
+  margin: 20px 0;
+  font-weight: 400;
+  color: #333;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.text-muted {
+  color: #ccc;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

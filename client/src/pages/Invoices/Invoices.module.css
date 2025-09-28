@@ -1,13 +1,21 @@
 .invoices {
-  color: #141416;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    color: #141416;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .invoice-list-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* Error message styles */
+
+.error-message {
+    color: var(--color-red);
+    font-weight: bold;
 }

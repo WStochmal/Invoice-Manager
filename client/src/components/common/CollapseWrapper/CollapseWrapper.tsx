@@ -5,12 +5,14 @@ import icon_arrow from "@/assets/icons/arrow.png";
 type CollapseWrapperProps = {
   title: string;
   defaultCollapsed?: boolean;
+  type?: string;
   children: ReactNode;
 };
 
 const CollapseWrapper: React.FC<CollapseWrapperProps> = ({
   title,
   defaultCollapsed = false,
+  type = "default",
   children,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
@@ -22,7 +24,7 @@ const CollapseWrapper: React.FC<CollapseWrapperProps> = ({
   };
 
   return (
-    <div className={style["collapse-wrapper"]}>
+    <div className={`${style["collapse-wrapper"]} ${style["wrapper-" + type]}`}>
       <div className={style["collapse-header"]}>
         <h3>{title}</h3>
         <button onClick={handleToggle} aria-label="Toggle collapse">

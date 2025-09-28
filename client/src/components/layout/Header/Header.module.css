@@ -1,6 +1,43 @@
 .header {
+    z-index: 2;
     height: 80px;
-    background: #262a2d;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: var(--color-dark);
+    box-shadow: var(--default-box-shadow);
     z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+
+/* HEADER H1 */
+
+.header h1 {
+    font-size: 30px;
+    color: var(--color-white);
+    font-weight: 600;
+}
+
+.header h1 a:first-child {
+    color: var(--color-blue);
+}
+
+
+/* LANGUAGES */
+
+.header-language {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.header-language span {
+    cursor: pointer;
+    padding: 5px 10px;
+    color: var(--color-grey);
+}
+
+.header-language span.active {
+    color: var(--color-white);
 }

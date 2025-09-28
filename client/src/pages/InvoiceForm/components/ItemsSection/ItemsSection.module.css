@@ -5,30 +5,6 @@
   overflow-x: auto;
 }
 
-.items-section table {
-  width: max-content;
-  min-width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  white-space: nowrap;
-}
-
-.items-section th {
-  font-weight: 400;
-  font-size: 0.8rem;
-  color: var(--color-grey);
-}
-
-.items-section th,
-.items-section td {
-  padding: 8px 12px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .items-section input {
   width: 100%;
   box-sizing: border-box;
@@ -64,45 +40,5 @@
   width: 16px;
   height: 16px;
   filter: invert(1);
-  transition: transform 0.2s;
-}
-
-/* --- Column sizes --- */
-
-.col-small {
-  width: 60px;
-}
-
-.col-medium {
-  width: 120px;
-}
-
-.col-large {
-  width: auto;
-  min-width: 200px;
-}
-
-/* --- Remove item button --- */
-
-.remove-item {
-  background: none;
-  border: none;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.remove-item:hover img {
-  transform: scale(1.2) rotate(15deg);
-  filter: invert(0);
-}
-
-.remove-item img {
-  width: 16px;
-  height: 16px;
-  filter: invert(0.5);
   transition: transform 0.2s;
 }
