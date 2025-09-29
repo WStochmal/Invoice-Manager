@@ -270,6 +270,4 @@ Invoice-Manager/
 
 ## 📝 Podsumowanie realizacji zadania rekrutacyjnego
 
-### ✅ **Wszystkie wymagania spełnione w 100%:**
-
 Realizując zadanie w wyznaczonym czasie, udało się stworzyć funkcjonalną aplikację spełniającą wymagania wraz z dodatkowymi funkcjonalnościami. Naturalnym kierunkiem rozwoju byłoby dodanie autentykacji, bazy danych i oraz paginacji dla listy faktur.
