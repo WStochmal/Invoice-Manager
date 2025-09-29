@@ -26,6 +26,7 @@ type InvoiceContextProps = {
   updateInvoice: ReturnType<typeof useApiCall<Invoice, Invoice>>;
   deleteInvoice: ReturnType<typeof useApiCall<void, string>>;
   toggleFavoriteInvoice: ReturnType<typeof useApiCall<Invoice, string>>;
+  downloadInvoiceAsPDF: (invoiceId: string) => void;
   updateCurrentInvoiceForm: (
     toBeUpdated:
       | "NEW_INVOICE"
@@ -134,6 +135,25 @@ export const InvoiceContextProvider: React.FC<{
     },
   });
 
+  // --- Custom func to download invoice as PDF ---
+  const downloadInvoiceAsPDF = (invoiceId: string) => {
+    InvoiceApi.downloadInvoicePDF(invoiceId)
+      .then((arrayBuffer) => {
+        // Create a blob from the response data
+        const blob = new Blob([arrayBuffer], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `invoice_${invoiceId}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode?.removeChild(link);
+      })
+      .catch((error) => {
+        console.error("Error downloading PDF:", error);
+      });
+  };
+
   // ### Handlers ###
   // --- Update current invoice (locally in form view) ---
   const updateCurrentInvoiceForm = (
@@ -216,6 +236,7 @@ export const InvoiceContextProvider: React.FC<{
     deleteInvoice,
     updateCurrentInvoiceForm,
     toggleFavoriteInvoice,
+    downloadInvoiceAsPDF,
   };
 
   return (

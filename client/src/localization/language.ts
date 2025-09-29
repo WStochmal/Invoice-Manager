@@ -86,6 +86,8 @@ export const TRANSLATION = {
 
     LOAD_INVOICE_TITLE: "Wczytaj fakturę",
 
+    INVOICE_STATUS_TITLE: "Ustaw status faktury",
+
     // --- Server messages / validations ---
     SERVER_UNREACHABLE: "Błąd: Serwer jest chwilowo nieosiągalny!",
     VALIDATION_ERROR: "Błąd walidacji danych!",
@@ -93,6 +95,21 @@ export const TRANSLATION = {
     INVOICE_NUMBER_ALREADY_EXISTS: "Faktura o podanym numerze już istnieje!",
     INVOICE_ITEM_QUANTITY_MIN: "Ilość musi być większa od 0!",
     INVOICE_CREATED: "Faktura została pomyślnie utworzona!",
+    INVOICE_STREET_NULL: "Pole ulica dla nabywcy nie może być puste!",
+    INVOICE_ITEM_DESCRIPTION_NULL:
+      "Pole nazwa towaru/usługi nie może być puste!",
+    EMPTY_INVOICE_LIST: "Brak faktur do wyświetlenia",
+    INVOICE_POSTAL_CODE_INVALID:
+      "Format kodu pocztowego jest nieprawidłowy! (XX-XXX)",
+    INVOICE_DUE_DATE_NULL: "Pole data płatności nie może być puste",
+    INVOICE_ITEM_QUANTITY_NULL: "Pole ilość nie może być puste",
+    INVOICE_ISSUE_DATE_NULL: "Pole data wystawienia nie może być puste",
+    OPEN_INVOICE_IN_FORM: "Otwórz fakturę w formularzu",
+    DELETE_INVOICE: "Usuń fakturę",
+    PRINT_INVOICE: "Wydrukuj fakturę",
+    INVALID_JSON_STRUCTURE: "Nieprawidłowa struktura pliku JSON!",
+    INVOICE_NUMBER_BLANK: "Numer faktury nie może być pusty!",
+    INVOICE_NUMBER_NULL: "Numer faktury nie może być pusty!",
   },
   en: {
     // --- Menu ---
@@ -180,6 +197,8 @@ export const TRANSLATION = {
 
     LOAD_INVOICE_TITLE: "Load Invoice",
 
+    INVOICE_STATUS_TITLE: "Set Invoice Status",
+
     // --- Server messages / validations ---
     SERVER_UNREACHABLE: "Error: Server is temporarily unreachable!",
     VALIDATION_ERROR: "Validation error!",
@@ -187,5 +206,18 @@ export const TRANSLATION = {
     INVOICE_NUMBER_ALREADY_EXISTS: "Invoice with this number already exists!",
     INVOICE_ITEM_QUANTITY_MIN: "Quantity must be greater than 0!",
     INVOICE_CREATED: "Invoice was successfully created!",
+    INVOICE_POSTAL_CODE_INVALID: "Postal code format is invalid! (XX-XXX)",
+
+    EMPTY_INVOICE_LIST: "No invoices to display",
+    INVOICE_DUE_DATE_NULL: "Due date field cannot be empty",
+    INVOICE_ITEM_QUANTITY_NULL: "Quantity field cannot be empty",
+    INVOICE_ISSUE_DATE_NULL: "Issue date field cannot be empty",
+
+    OPEN_INVOICE_IN_FORM: "Open Invoice in Form",
+    DELETE_INVOICE: "Delete Invoice",
+    PRINT_INVOICE: "Print Invoice",
+    INVALID_JSON_STRUCTURE: "Invalid JSON file structure!",
+    INVOICE_NUMBER_BLANK: "Invoice number cannot be blank!",
+    INVOICE_NUMBER_NULL: "Invoice number cannot be null!",
   },
 };

@@ -34,7 +34,7 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [variant, setVariant] = useState<ModalVariant>(null);
 
-  const { updateInvoice, createInvoice } = useInvoiceContext();
+  const { updateInvoice, createInvoice, deleteInvoice } = useInvoiceContext();
 
   const openModal = (variant: ModalVariant) => {
     setVariant(variant);
@@ -49,10 +49,12 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
       case "CONFIRM_ACTION":
         updateInvoice.reset();
         createInvoice.reset();
+        deleteInvoice.reset();
         break;
       case "NEW_INVOICE":
         createInvoice.reset();
         break;
+
       default:
         break;
     }

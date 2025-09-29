@@ -47,7 +47,10 @@ const NewInvoiceModal = () => {
       const invoice = await parseInvoiceFile(file);
       await createInvoice.execute(invoice, "INVOICE_LIST");
     } catch (err) {
-      setIsFileValid({ valid: false, message: "INVALID_JSON_STRUCTURE" });
+      setIsFileValid({
+        valid: false,
+        message: getText("INVALID_JSON_STRUCTURE"),
+      });
     }
   };
 
@@ -84,7 +87,7 @@ const NewInvoiceModal = () => {
       ) : createInvoice.messageCode ? (
         <CollapseWrapper
           title={getText(createInvoice.messageCode)}
-          defaultCollapsed={createInvoice.isError} // błędy domyślnie złożone, sukces rozwinięty
+          defaultCollapsed={createInvoice.isError}
           type={createInvoice.isError ? "error" : "success"}
         >
           {createInvoice.isError &&

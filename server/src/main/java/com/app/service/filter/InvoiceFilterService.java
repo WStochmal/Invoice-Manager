@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class InvoiceFilter {
+public class InvoiceFilterService {
 
     // ### Filter invoices based on criteria (InvoiceFilterDto) ###
     public List<Invoice> applyFilters(List<Invoice> invoices, InvoiceFilterDto filters) {

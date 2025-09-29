@@ -46,6 +46,23 @@ const SummarySection = () => {
             {currentInvoice.currency}
           </span>
         </div>
+        <div className={style["invoice-status-container"]}>
+          <label>{getText("INVOICE_STATUS_TITLE")}</label>
+          <select
+            required
+            className={`${style["invoice-status"]} ${
+              style[currentInvoice.status.toLowerCase()]
+            }`}
+            value={currentInvoice.status || "PENDING"}
+            onChange={(e) =>
+              updateCurrentInvoiceForm("INVOICE_FORM", "status", e.target.value)
+            }
+          >
+            <option value="PAID">PAID</option>
+            <option value="UNPAID">UNPAID</option>
+            <option value="PENDING">PENDING</option>
+          </select>
+        </div>
       </div>
     </div>
   );

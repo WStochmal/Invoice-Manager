@@ -3,14 +3,15 @@ import { useRef, useState } from "react";
 
 // --- hooks ---
 import { useInvoiceContext } from "@/hooks/useInvoicesContext";
+import { useModalContext } from "@/hooks/useModalContext";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useNavigate } from "react-router-dom";
 
 // --- style ---
 import style from "./InvoiceFormHeader.module.css";
 
 // --- icon ---
 import icon_upload from "@/assets/icons/upload.png";
-import { useModalContext } from "@/hooks/useModalContext";
-import { useTranslation } from "@/hooks/useTranslation";
 
 // type
 type InvoiceFormHeaderProps = {
@@ -27,11 +28,14 @@ const InvoiceFormHeader = ({
   const { currentInvoice, updateInvoice } = useInvoiceContext();
   const { openModal } = useModalContext();
   const { getText } = useTranslation();
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   return (
     <div className={style["invoice-form-header"]}>
       <div className={style["header-top-section"]}>
-        <p>&lt; {getText("INVOICES_LIST_HEADER")}</p>
+        <p onClick={() => navigate("/invoices")}>
+          &lt; {getText("INVOICES_LIST_HEADER")}
+        </p>
 
         <div
           className={style["json-to-form-input"]}

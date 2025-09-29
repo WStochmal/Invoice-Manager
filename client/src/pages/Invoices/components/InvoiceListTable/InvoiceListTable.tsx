@@ -37,7 +37,7 @@ const InvoiceListTable: React.FC<InvoiceListTableProps> = ({
   const navigate = useNavigate();
   const { openModal } = useModalContext();
   const { getText } = useTranslation();
-  const { toggleFavoriteInvoice } = useInvoiceContext();
+  const { toggleFavoriteInvoice, downloadInvoiceAsPDF } = useInvoiceContext();
 
   if (invoices.length === 0) {
     return null;
@@ -92,24 +92,31 @@ const InvoiceListTable: React.FC<InvoiceListTableProps> = ({
                 {invoice.invoiceNumber}
               </td>
               <td className={tableStyle["large-column"]}>
-                {invoice.buyer.name}
+                {invoice.buyer?.name ?? invoice.buyerName}
               </td>
               <td className={tableStyle["medium-column"]}>
                 {invoice.totalNetPrice}
               </td>
               <td className={tableStyle["small-column"]}>
-                <span
-                  className={`${style["invoice-paid-status"]} ${
-                    style[`paid-status-${invoice.status.toLowerCase()}`]
-                  }`}
-                ></span>
+                <div className={style["invoice-table-cell-with-status"]}>
+                  <span
+                    className={`${style["invoice-paid-status"]} ${
+                      style[`paid-status-${invoice.status.toLowerCase()}`]
+                    }`}
+                  ></span>
+                </div>
               </td>
               <td className={tableStyle["tiny-column"]}>
-                <button className={tableStyle["table-button"]}>
+                <button
+                  className={tableStyle["table-button"]}
+                  onClick={() => {
+                    downloadInvoiceAsPDF(invoice.id);
+                  }}
+                >
                   <img
                     src={icon_print}
                     alt="Print Icon"
-                    title="Print Invoice"
+                    title={getText("PRINT_INVOICE")}
                   />
                 </button>
               </td>
@@ -122,7 +129,7 @@ const InvoiceListTable: React.FC<InvoiceListTableProps> = ({
                   <img
                     src={icon_edit}
                     alt="Edit Icon"
-                    title="Open invoice in form"
+                    title={getText("OPEN_INVOICE_IN_FORM")}
                   />
                 </button>
               </td>
@@ -131,7 +138,7 @@ const InvoiceListTable: React.FC<InvoiceListTableProps> = ({
                   <img
                     src={icon_delete}
                     alt="Delete Icon"
-                    title="Delete Invoice"
+                    title={getText("DELETE_INVOICE")}
                     onClick={() =>
                       openModal({
                         type: "CONFIRM_ACTION",

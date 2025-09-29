@@ -54,4 +54,13 @@ export const InvoiceApi = {
     );
     return response.data;
   },
+  downloadInvoicePDF: async (invoiceId: string): Promise<Blob> => {
+    const response = await axiosClient.get(
+      `${BASE_PATH}/${invoiceId}/download`,
+      {
+        responseType: "arraybuffer",
+      }
+    );
+    return response.data;
+  },
 };

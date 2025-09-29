@@ -4,6 +4,7 @@ package com.app.controller;
 import com.app.dto.ResponseDto;
 import com.app.dto.invoice.CreateInvoiceDto;
 import com.app.dto.invoice.InvoiceFilterDto;
+import com.app.dto.invoice.InvoiceSummaryList;
 import com.app.dto.invoice.UpdateInvoiceDto;
 import com.app.model.Invoice;
 import com.app.service.InvoiceService;
@@ -25,7 +26,7 @@ public class InvoiceController {
 
     // --- Get invoices (with filter) ---
     @GetMapping
-    public ResponseEntity<ResponseDto<List<Invoice>>> getAllInvoices(InvoiceFilterDto filters) {
+    public ResponseEntity<ResponseDto<List<InvoiceSummaryList>>> getAllInvoices(InvoiceFilterDto filters) {
         return invoiceService.getAllInvoices(filters);
     }
 
@@ -56,5 +57,12 @@ public class InvoiceController {
     public ResponseEntity<ResponseDto<Invoice>> toggleFavorite(@PathVariable String id) {
         return invoiceService.toggleFavorite(id);
     }
+
+    // --- Download invoice pdf by id ---
+    @GetMapping("/{id}/download")
+    public ResponseEntity<byte[]> downloadInvoicePdf(@PathVariable String id) {
+        return invoiceService.downloadInvoicePdf(id);
+    }
+
 
 }

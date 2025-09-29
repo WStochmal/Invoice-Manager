@@ -1,95 +1,98 @@
 .invoice-table {
-  border-collapse: collapse;
-  table-layout: fixed;
-  width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
 }
 
 .invoice-table-title {
-  font-size: 1.5em;
-  margin: 20px 0;
-  font-weight: 400;
-  color: #333;
+    font-size: 1.5em;
+    margin: 20px 0;
+    font-weight: 400;
+    color: #333;
 }
 
 .invoice-table img {
-  width: 20px;
-  height: 20px;
-  filter: invert(0.6);
+    width: 20px;
+    height: 20px;
+    filter: invert(0.6);
 }
 
 .invoice-table tr {
-  width: 100%;
+    width: 100%;
 }
 
 .invoice-table tr:hover {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
 .invoice-table th {
-  color: #ccc;
-  font-weight: normal;
+    color: #ccc;
+    font-weight: normal;
 }
 
 .invoice-table th,
 .invoice-table td {
-  border-bottom: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
 }
 
 .invoice-table td:nth-child(2) {
-  color: #ccc;
+    color: #ccc;
 }
 
 .invoice-paid-status {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ccc;
-  font-weight: bold;
-  border-radius: 50%;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    font-weight: bold;
+    border-radius: 50%;
 }
 
+
+/* Paid Status */
+
 .paid-status-paid {
-  background-color: green;
+    background-color: var(--color-green);
 }
 
 .paid-status-unpaid {
-  background-color: red;
+    background-color: var(--color-red);
 }
 
 .paid-status-pending {
-  background-color: grey;
+    background-color: var(--color-grey);
 }
 
-.invoice-table-cell-with-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.invoice-table-cell-with-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .invoice-list-row {
-  background: #fefefb;
+    background: #fefefb;
 }
 
 .invoice-row-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .small-column {
-  width: 5%;
-  min-width: 30px;
+    width: 5%;
+    min-width: 30px;
 }
 
 .medium-column {
-  min-width: 80px;
-  width: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    min-width: 80px;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

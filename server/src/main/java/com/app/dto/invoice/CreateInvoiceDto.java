@@ -15,8 +15,11 @@ import java.util.List;
 @Data
 public class CreateInvoiceDto {
 
-    private String invoiceNumber; //  FV/(auto) / (auto)
+    @NotBlank(message = "INVOICE_NUMBER_BLANK")
+    private String invoiceNumber;
+    @NotNull(message = "INVOICE_ISSUE_DATE_NULL")
     private LocalDate issueDate;
+    @NotNull(message = "INVOICE_DUE_DATE_NULL")
     private LocalDate dueDate;
     @Valid
     private Buyer buyer;

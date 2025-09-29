@@ -3,22 +3,24 @@ package com.app.service;
 import com.app.dto.ResponseDto;
 import com.app.dto.invoice.CreateInvoiceDto;
 import com.app.dto.invoice.InvoiceFilterDto;
+import com.app.dto.invoice.InvoiceSummaryList;
 import com.app.dto.invoice.UpdateInvoiceDto;
 import com.app.exception.invoice.InvoiceCreationException;
 import com.app.exception.invoice.InvoiceNotFoundException;
 import com.app.model.Invoice;
 import com.app.repository.InvoiceRepository;
-import com.app.service.filter.InvoiceFilter;
+import com.app.service.filter.InvoiceFilterService;
+import com.app.service.pdf.InvoicePdfService;
 import com.app.util.InvoiceCalculator;
 import com.app.util.InvoiceNumberGenerator;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -26,24 +28,38 @@ public class InvoiceService {
 
     // --- Invoice Repository (List implementation) ---
     private final InvoiceRepository invoiceRepository;
-    private final InvoiceFilter invoiceFilter;
+    private final InvoiceFilterService invoiceFilter;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, InvoiceFilter invoiceFilter) {
+    public InvoiceService(InvoiceRepository invoiceRepository, InvoiceFilterService invoiceFilter) {
         this.invoiceRepository = invoiceRepository;
         this.invoiceFilter = invoiceFilter;
     }
 
     // --- Fetch invoices ---
-    public ResponseEntity<ResponseDto<List<Invoice>>> getAllInvoices(InvoiceFilterDto filters) {
+    public ResponseEntity<ResponseDto<List<InvoiceSummaryList>>> getAllInvoices(InvoiceFilterDto filters) {
         // 1. Fetch all invoices from repository
         List<Invoice> invoices = invoiceRepository.getAllInvoices();
 
         // 2. Apply filters if provided
         List<Invoice> filteredInvoices = invoiceFilter.applyFilters(invoices, filters);
 
-        // 3. Return response
-        ResponseDto<List<Invoice>> responseDto =
-                new ResponseDto<>(true, "INVOICES_RETRIEVED", filteredInvoices);
+        // 3. Map to InvoiceSummaryList DTO
+        List<InvoiceSummaryList> dtoList = new ArrayList<>();
+        for (Invoice inv : filteredInvoices) {
+            dtoList.add(new InvoiceSummaryList(
+                    inv.getId(),
+                    inv.getIssueDate(),
+                    inv.getInvoiceNumber(),
+                    inv.getBuyer().getName(),
+                    inv.getTotalNetPrice(),
+                    inv.isFavorite(),
+                    inv.getStatus()
+            ));
+        }
+
+        // 4. Return response
+        ResponseDto<List<InvoiceSummaryList>> responseDto =
+                new ResponseDto<>(true, "INVOICES_RETRIEVED", dtoList);
         return ResponseEntity.ok(responseDto);
     }
 
@@ -75,9 +91,13 @@ public class InvoiceService {
         // 2. Calculate prices
         InvoiceCalculator.calculateTotalPrices(newInvoice);
 
-        // 3. Generate unique ID and creation timestamp
+        // 3. Generate unique ID and creation timestamp, and status if null
         newInvoice.setId(UUID.randomUUID());
         newInvoice.setCreatedAt(java.time.LocalDateTime.now());
+
+        if (newInvoice.getStatus() == null || newInvoice.getStatus().isEmpty()) {
+            newInvoice.setStatus("PENDING");
+        }
 
         // 4. Add to repository (List)
         invoiceRepository.addInvoice(newInvoice);
@@ -136,5 +156,22 @@ public class InvoiceService {
         );
         return ResponseEntity.ok(responseDto);
     }
+
+    // --- Download invoice PDF by ID ---
+    public ResponseEntity<byte[]> downloadInvoicePdf(String id) {
+        // 1. Fetch invoice from repository
+        Invoice invoice = invoiceRepository.getInvoiceById(id)
+                .orElseThrow(InvoiceNotFoundException::new);
+
+        // 2. Generate PDF
+        byte[] pdfBytes = InvoicePdfService.generateInvoicePdf(invoice);
+
+        // 3. Return response
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=invoice_" + invoice.getInvoiceNumber() + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
+    }
 }
+
 
