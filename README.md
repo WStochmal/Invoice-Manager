@@ -57,7 +57,7 @@
 
 ## ✨ Funkcjonalności
 
-- **Dodawanie faktury** - dodanie faktury poprzez plik json albo dostępny formularz
+- **Dodawanie faktury** - dodanie faktury poprzez plik json albo dostępny formularz(gdzie również można załadować dane JSON z pliku)
 - **Edycja faktur** - modyfikacja istniejących farkur
 - **Usuwanie faktur** - zarządzanie listą faktur
 - **Generowanie PDF** - eksport do pliku PDF
