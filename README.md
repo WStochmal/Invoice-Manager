@@ -1,21 +1,5 @@
 # Invoice Manager
 
-## 📝 Zadanie rekrutacyjne
-
-> **Firma wystawia faktury swoim klientom. Twoim zadaniem jest napisanie prostej aplikacji webowej (Java + Spring Boot + React), która umożliwi:**
->
-> - Dodanie faktury
-> - Wyświetlenie szczegółów faktury w UI w formie czytelnego podglądu
->
-> **Wymagania:**
->
-> - Widok na Frontendzie powinien prezentować fakturę w przejrzystej formie
-> - Aplikacja przyjmuje dane wejściowe w postaci JSON
-> - Na fakturze powinna być wyliczona kwota brutto, na podstawie przekazanej w json kwoty netto. Dla uproszczenia możemy przyjąć, że vat jest zawsze 23%. Na końcu powinna być również wyliczona suma końcowa.
-> - W swojej implementacji dane przykładowe możesz trzymać w pamięci np. na liście
-> - Nie zapomnij o testach
-
-### ✅ **Status realizacji: UKOŃCZONE**
 
 ## 👨‍💻 Autor
 
